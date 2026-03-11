@@ -572,7 +572,12 @@
   const setSub = (id, text) => { document.getElementById(id).textContent = text; };
 
   async function plausibleGet(url) {
-    const res = await fetch(url, { headers: { Authorization: 'Bearer ' + API_KEY } });
+    // Plausible Stats API blocks direct browser calls (CORS).
+    // We route through corsproxy.io which forwards request headers including Authorization.
+    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+    const res = await fetch(proxyUrl, {
+      headers: { 'Authorization': 'Bearer ' + API_KEY }
+    });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     return res.json();
   }
