@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About & Team — Meridian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- ✅ PLAUSIBLE TRACKING -->
+  <script defer data-domain="meet-trivedi-techeniac.github.io/plausible" src="https://plausible.io/js/script.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080807; --surface: #111110; --border: #222220;
+      --gold: #c9a84c; --gold-pale: #e8d5a3; --cream: #f5f0e8;
+      --muted: #888880;
+      --font-display: 'Cormorant Garant', Georgia, serif;
+      --font-body: 'Outfit', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--cream); font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; overflow-x: hidden; cursor: none; }
+
+    /* CURSOR */
+    #cursor { position: fixed; top: 0; left: 0; z-index: 9999; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; pointer-events: none; transform: translate(-50%,-50%); transition: width .25s, height .25s; }
+    #cursor-ring { position: fixed; top: 0; left: 0; z-index: 9998; width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; transform: translate(-50%,-50%); opacity: .5; transition: width .25s, height .25s; }
+    body.hovering #cursor { width: 16px; height: 16px; }
+    body.hovering #cursor-ring { width: 52px; height: 52px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 72px; background: rgba(8,8,7,.85); backdrop-filter: blur(16px); box-shadow: 0 1px 0 var(--border); }
+    .logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: .04em; color: var(--cream); text-decoration: none; }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: .8rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color .25s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta { font-size: .75rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--gold); border: 1px solid var(--gold); padding: .55rem 1.4rem; transition: background .25s, color .25s; }
+    .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 10rem 10vw 6rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(201,168,76,.06) 0%, transparent 60%);
+    }
+    .page-hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+      opacity: .2;
+    }
+    .page-hero-content { position: relative; }
+    .breadcrumb {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .7rem; font-weight: 500; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 2rem;
+      text-decoration: none;
+      transition: color .25s;
+    }
+    .breadcrumb:hover { color: var(--gold); }
+    .breadcrumb svg { transition: transform .25s; }
+    .breadcrumb:hover svg { transform: translateX(-3px); }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 300; line-height: 1.05;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp .9s .2s forwards;
+    }
+    .page-title em { font-style: italic; color: var(--gold-pale); }
+    .page-sub {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 520px;
+      opacity: 0; animation: fadeUp .9s .35s forwards;
+    }
+
+    /* SECTIONS */
+    .section { padding: 6rem 10vw; }
+    .section-tag { display: inline-flex; align-items: center; gap: .75rem; font-size: .7rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    .section-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem,4vw,3.4rem); font-weight: 300; line-height: 1.1; margin-bottom: 3rem; }
+    .section-title em { font-style: italic; color: var(--gold-pale); }
+
+    /* STORY */
+    .story-section { border-bottom: 1px solid var(--border); }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .story-text p { color: var(--muted); margin-bottom: 1.5rem; font-size: 1.05rem; }
+    .story-milestones { display: flex; flex-direction: column; }
+    .milestone {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 1.5rem; padding: 1.8rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .milestone:first-child { border-top: 1px solid var(--border); }
+    .milestone-year {
+      font-family: var(--font-display);
+      font-size: 1.6rem; font-weight: 300;
+      color: var(--gold); line-height: 1.2;
+    }
+    .milestone-title { font-weight: 500; margin-bottom: .3rem; }
+    .milestone-desc { font-size: .875rem; color: var(--muted); }
+
+    /* VALUES */
+    .values-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .value-card {
+      background: var(--surface);
+      padding: 2.5rem;
+      transition: background .3s;
+      position: relative; overflow: hidden;
+    }
+    .value-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .4s ease; }
+    .value-card:hover { background: #161614; }
+    .value-card:hover::before { transform: scaleX(1); }
+    .value-icon-lg {
+      width: 48px; height: 48px;
+      border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .value-card-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; margin-bottom: .75rem; }
+    .value-card-desc { font-size: .9rem; color: var(--muted); line-height: 1.75; }
+
+    /* TEAM */
+    .team-section { border-top: 1px solid var(--border); }
+    .team-grid-full { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+    .team-card { border: 1px solid var(--border); overflow: hidden; transition: border-color .3s; }
+    .team-card:hover { border-color: var(--gold); }
+    .team-photo { aspect-ratio: 3/4; background: var(--bg); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .team-photo-bg { position: absolute; inset: 0; transition: transform .5s ease; }
+    .team-card:hover .team-photo-bg { transform: scale(1.05); }
+    .tp-1 { background: linear-gradient(160deg,#1c1507 0%,#120f05 100%); }
+    .tp-2 { background: linear-gradient(160deg,#070f1c 0%,#050b12 100%); }
+    .tp-3 { background: linear-gradient(160deg,#0f0c1c 0%,#090613 100%); }
+    .tp-4 { background: linear-gradient(160deg,#091407 0%,#060e05 100%); }
+    .tp-5 { background: linear-gradient(160deg,#1a0a0a 0%,#120505 100%); }
+    .tp-6 { background: linear-gradient(160deg,#0a0a1a 0%,#050512 100%); }
+    .tp-7 { background: linear-gradient(160deg,#0a1a0a 0%,#051205 100%); }
+    .tp-8 { background: linear-gradient(160deg,#1a1a0a 0%,#12120a 100%); }
+    .team-initials { position: relative; font-family: var(--font-display); font-size: 3rem; font-weight: 300; color: rgba(201,168,76,.3); }
+    .team-info { padding: 1.4rem; border-top: 1px solid var(--border); }
+    .team-name { font-weight: 500; margin-bottom: .25rem; }
+    .team-role { font-size: .75rem; color: var(--gold); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .5rem; }
+    .team-bio { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+    .team-links { display: flex; gap: .75rem; margin-top: .75rem; }
+    .team-link { width: 28px; height: 28px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: border-color .25s, color .25s; text-decoration: none; }
+    .team-link:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* CULTURE */
+    .culture-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .culture-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .culture-text p { color: var(--muted); margin-bottom: 1.5rem; font-size: 1.05rem; }
+    .culture-perks { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .perk {
+      padding: 1.2rem 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      transition: border-color .3s;
+    }
+    .perk:hover { border-color: var(--gold); }
+    .perk-title { font-weight: 500; font-size: .9rem; margin-bottom: .3rem; }
+    .perk-desc { font-size: .8rem; color: var(--muted); }
+
+    /* CTA */
+    .cta-section { padding: 6rem 10vw; text-align: center; border-top: 1px solid var(--border); }
+    .cta-title { font-family: var(--font-display); font-size: clamp(2rem,4vw,3.5rem); font-weight: 300; margin-bottom: 1.5rem; }
+    .cta-title em { font-style: italic; color: var(--gold-pale); }
+    .cta-sub { color: var(--muted); max-width: 480px; margin: 0 auto 3rem; }
+    .cta-actions { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--gold); color: var(--bg); font-size: .8rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; padding: 1rem 2.2rem; transition: background .25s, transform .25s; }
+    .btn-primary:hover { background: var(--gold-pale); transform: translateY(-2px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: .6rem; font-size: .8rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--cream); border: 1px solid var(--border); padding: 1rem 2.2rem; transition: border-color .25s, color .25s; }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 3rem 10vw; display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--cream); }
+    .footer-logo span { color: var(--gold); }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .25s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: .75rem; color: var(--muted); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none} }
+
+    @media (max-width:1024px) {
+      .team-grid-full { grid-template-columns: repeat(2,1fr); }
+      .values-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width:768px) {
+      .nav-links,.nav-cta { display:none; }
+      .story-grid,.culture-grid { grid-template-columns:1fr; gap:3rem; }
+      .values-grid { grid-template-columns:1fr; }
+      .culture-perks { grid-template-columns:1fr; }
+      footer { flex-direction:column; gap:2rem; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Meri<span>dian</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#analytics">Analytics</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Get in Touch</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-grid"></div>
+  <div class="page-hero-content">
+    <a href="index.html" class="breadcrumb">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Home
+    </a>
+    <h1 class="page-title">The people behind<br>the <em>work</em></h1>
+    <p class="page-sub">A team of strategists, designers, and growth experts united by a single obsession — building brands that endure.</p>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="section story-section">
+  <div class="story-grid">
+    <div>
+      <div class="section-tag">Our Story</div>
+      <h2 class="section-title reveal">12 years of<br><em>deliberate craft</em></h2>
+      <div class="story-text">
+        <p class="reveal">Founded in 2012, Meridian was born from a simple but radical idea — that strategy and design are not separate disciplines but a single, unified force.</p>
+        <p class="reveal">We started as a two-person consultancy in San Francisco. Today we are a 24-person studio with clients across 40 countries, but the founding principles have never changed.</p>
+        <p class="reveal">We do not chase volume. We take on a limited number of engagements each quarter so every project receives the full weight of our attention.</p>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="milestone">
+        <div class="milestone-year">2012</div>
+        <div><div class="milestone-title">Founded in San Francisco</div><div class="milestone-desc">Elena Calder and Marcus Vance start Meridian as a boutique brand consultancy.</div></div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-year">2015</div>
+        <div><div class="milestone-title">First Major Rebrand</div><div class="milestone-desc">Led the complete repositioning of a $500M fintech firm — our first landmark project.</div></div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-year">2018</div>
+        <div><div class="milestone-title">Expanded to Digital</div><div class="milestone-desc">Launched our digital design and growth practice, tripling the team within 18 months.</div></div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-year">2021</div>
+        <div><div class="milestone-title">Global Reach</div><div class="milestone-desc">Crossed 40 countries served. Opened a second studio in London.</div></div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-year">2024</div>
+        <div><div class="milestone-title">240 Projects Delivered</div><div class="milestone-desc">Reached a new milestone with a 98% client satisfaction rate across all engagements.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VALUES -->
+<div class="section values-section">
+  <div class="section-tag">What We Stand For</div>
+  <h2 class="section-title reveal">Our values are not<br><em>a poster on the wall</em></h2>
+  <div class="values-grid">
+    <div class="value-card reveal">
+      <div class="value-icon-lg">✦</div>
+      <div class="value-card-title">Intentional Craft</div>
+      <div class="value-card-desc">Every pixel, every word, every strategy is deliberate. We reject speed for its own sake and embrace the complexity required to produce work that lasts.</div>
+    </div>
+    <div class="value-card reveal reveal-delay-1">
+      <div class="value-icon-lg">◈</div>
+      <div class="value-card-title">Strategic Depth</div>
+      <div class="value-card-desc">We operate where business logic and creative vision intersect. Beautiful work that does not perform is decoration. Strategy without soul is forgettable.</div>
+    </div>
+    <div class="value-card reveal reveal-delay-2">
+      <div class="value-icon-lg">⬡</div>
+      <div class="value-card-title">Radical Partnership</div>
+      <div class="value-card-desc">We embed alongside your team. We share accountability for outcomes, not just deliverables. Your success is our only metric.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="value-icon-lg">△</div>
+      <div class="value-card-title">Honest Counsel</div>
+      <div class="value-card-desc">We tell clients what they need to hear, not what they want to hear. Difficult truths delivered early save years of wasted effort.</div>
+    </div>
+    <div class="value-card reveal reveal-delay-1">
+      <div class="value-icon-lg">○</div>
+      <div class="value-card-title">Long-term Thinking</div>
+      <div class="value-card-desc">We optimize for enduring brand equity, not vanity metrics. The brands we build are still relevant a decade after we touch them.</div>
+    </div>
+    <div class="value-card reveal reveal-delay-2">
+      <div class="value-icon-lg">□</div>
+      <div class="value-card-title">Continuous Rigor</div>
+      <div class="value-card-desc">Markets change. Audiences evolve. We bring relentless curiosity to every engagement, never assuming yesterday's answers work today.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="section team-section">
+  <div class="section-tag">The Team</div>
+  <h2 class="section-title reveal">24 people,<br><em>one standard</em></h2>
+  <div class="team-grid-full">
+
+    <div class="team-card reveal">
+      <div class="team-photo"><div class="team-photo-bg tp-1"></div><div class="team-initials">EC</div></div>
+      <div class="team-info">
+        <div class="team-name">Elena Calder</div>
+        <div class="team-role">Founder & CEO</div>
+        <div class="team-bio">15 years in brand strategy. Previously VP at Wolff Olins. Obsessed with the space between business and culture.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card reveal reveal-delay-1">
+      <div class="team-photo"><div class="team-photo-bg tp-2"></div><div class="team-initials">MV</div></div>
+      <div class="team-info">
+        <div class="team-name">Marcus Vance</div>
+        <div class="team-role">Chief Strategy Officer</div>
+        <div class="team-bio">Former McKinsey partner. Specializes in market positioning and competitive differentiation for growth-stage companies.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card reveal reveal-delay-2">
+      <div class="team-photo"><div class="team-photo-bg tp-3"></div><div class="team-initials">SP</div></div>
+      <div class="team-info">
+        <div class="team-name">Sofia Patel</div>
+        <div class="team-role">Creative Director</div>
+        <div class="team-bio">Award-winning designer. Led creative at Pentagram for 6 years. Believes great design is 90% thinking, 10% execution.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card reveal reveal-delay-3">
+      <div class="team-photo"><div class="team-photo-bg tp-4"></div><div class="team-initials">JL</div></div>
+      <div class="team-info">
+        <div class="team-name">James Liu</div>
+        <div class="team-role">Head of Growth</div>
+        <div class="team-bio">Data-driven growth strategist. Scaled two SaaS companies from $1M to $50M ARR before joining Meridian.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card reveal">
+      <div class="team-photo"><div class="team-photo-bg tp-5"></div><div class="team-initials">AR</div></div>
+      <div class="team-info">
+        <div class="team-name">Aisha Rahman</div>
+        <div class="team-role">Head of Research</div>
+        <div class="team-bio">Qualitative researcher and market analyst. Turns ambiguous briefs into sharp, actionable intelligence.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card reveal reveal-delay-1">
+      <div class="team-photo"><div class="team-photo-bg tp-6"></div><div class="team-initials">TN</div></div>
+      <div class="team-info">
+        <div class="team-name">Tom Nakamura</div>
+        <div class="team-role">Lead Designer</div>
+        <div class="team-bio">UI/UX specialist focused on conversion-driven design. Previously at Figma and Linear.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card reveal reveal-delay-2">
+      <div class="team-photo"><div class="team-photo-bg tp-7"></div><div class="team-initials">LM</div></div>
+      <div class="team-info">
+        <div class="team-name">Lena Müller</div>
+        <div class="team-role">Content Strategist</div>
+        <div class="team-bio">Former journalist turned content strategist. Built editorial systems for brands with audiences in the millions.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card reveal reveal-delay-3">
+      <div class="team-photo"><div class="team-photo-bg tp-8"></div><div class="team-initials">RO</div></div>
+      <div class="team-info">
+        <div class="team-name">Ryan Okafor</div>
+        <div class="team-role">Growth Analyst</div>
+        <div class="team-bio">Performance marketing expert. Managed $20M+ in ad spend across B2B and consumer brands.</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CULTURE -->
+<div class="section culture-section">
+  <div class="culture-grid">
+    <div>
+      <div class="section-tag">Life at Meridian</div>
+      <h2 class="section-title reveal">Where great people<br>do their <em>best work</em></h2>
+      <div class="culture-text">
+        <p class="reveal">We are remote-first and asynchronous by default. Our team spans 8 time zones and we believe the best ideas come from people who have the space to think deeply.</p>
+        <p class="reveal">We invest heavily in our people — in their growth, their tools, and their time. A well-rested, well-supported team does better work. It is that simple.</p>
+      </div>
+    </div>
+    <div class="culture-perks reveal reveal-delay-2">
+      <div class="perk"><div class="perk-title">Remote First</div><div class="perk-desc">Work from anywhere. We care about output, not office hours.</div></div>
+      <div class="perk"><div class="perk-title">$5K Learning Budget</div><div class="perk-desc">Annual budget for courses, conferences, and books.</div></div>
+      <div class="perk"><div class="perk-title">4-Day Weeks</div><div class="perk-desc">Fridays are yours. We ship more in 4 days than most do in 5.</div></div>
+      <div class="perk"><div class="perk-title">Full Health Cover</div><div class="perk-desc">Medical, dental, and vision — fully covered for you and family.</div></div>
+      <div class="perk"><div class="perk-title">Equity for All</div><div class="perk-desc">Every full-time team member holds equity in Meridian.</div></div>
+      <div class="perk"><div class="perk-title">Annual Retreat</div><div class="perk-desc">The whole team comes together once a year, somewhere new.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="cta-title reveal">Ready to build<br>something <em>remarkable?</em></h2>
+  <p class="cta-sub reveal">We are currently accepting a limited number of new engagements for Q2 2025.</p>
+  <div class="cta-actions reveal">
+    <a href="index.html#contact" class="btn-primary">Start a Project</a>
+    <a href="index.html#work" class="btn-ghost">View Our Work</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Meri<span>dian</span></div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Meridian Studio. All rights reserved.</div>
+</footer>
+
+<script>
+  /* CURSOR */
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+  document.querySelectorAll('a,button,.team-card,.value-card,.perk')
+    .forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));});
+
+  /* REVEAL */
+  const obs = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
